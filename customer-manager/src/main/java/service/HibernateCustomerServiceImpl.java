@@ -50,7 +50,7 @@ public class HibernateCustomerServiceImpl implements CustomerService {
             origin.setName(customer.getName());
             origin.setEmail(customer.getEmail());
             origin.setAddress(customer.getAddress());
-            session.save(origin);
+            session.persist(origin);
             transaction.commit();
             return origin;
         }catch (Exception e){
@@ -75,12 +75,49 @@ public class HibernateCustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void update(long id, Customer customer) {
-
+    public void create(Customer customer) {
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Customer origin = new Customer();
+            origin.setName(customer.getName());
+            origin.setEmail(customer.getEmail());
+            origin.setAddress(customer.getAddress());
+            session.save(origin);
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            if (transaction != null){
+                transaction.rollback();
+            }
+        }finally {
+            if (session != null){
+                session.close();
+            }
+        }
     }
 
     @Override
     public void remove(long id) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Customer customer = findById(id);
+            session.delete(customer);
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            if (transaction != null){
+                transaction.rollback();
+            }
+        }finally {
+            if (session != null){
+                session.close();
+            }
+        }
     }
 }

@@ -77,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void update(long id, Customer customer) {
+    public void create(Customer customer) {
 
     }
 
