@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+<img id="img-of-the-day">
+<script>
+    let query = 'https://api.nasa.gov/planetary/apod?api_key=A1auXMAPB2aEKgttmZWjr3uUkptgPiZCUZBJ7Qd4';
+    let request = new XMLHttpRequest();
+    request.open('GET', query);
+    request.onload = function() {
+        if (request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            document.getElementById('img-of-the-day').setAttribute('src', response.url);
+        }
+    };
+    request.send();
+</script>
+<form th:action="@{/create-nasa}" th:object="${nasa}" method="post">
+    <select th:field="*{point}">
+        <option th:value="1" th:text="1"></option>
+        <option th:value="2" th:text="2"></option>
+        <option th:value="3" th:text="3"></option>
+        <option th:value="4" th:text="4"></option>
+        <option th:value="5" th:text="5"></option>
+    </select><br>
+    <label>Author:</label><br>
+    <input type="text" th:field="*{author}" size="40px"><br>
+    <label>Feedback</label><br>
+    <textarea rows="6" cols="100" th:field="*{feedback}"></textarea><br>
+    <input type="submit" value="Commit"><br>
+</form>
+<br>
+<form th:action="@{/list-comment}" method="get">
+    <button type="submit">See comment</button>
+</form>
 </body>
 </html>

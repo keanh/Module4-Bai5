@@ -11,6 +11,6 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-        <mapping class="model.Nasa"/>
+        <mapping class="com.codegym.model.Nasa"/>
     </session-factory>
 </hibernate-configuration>
